@@ -1,3 +1,5 @@
+#ajeitar p codigo todo
+
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
@@ -5,8 +7,7 @@ import numpy as np
 # ---- constantes -----
 G = 6.67430e-11  
 M_Sol = 1.989e30  
-AU = 1.496e11  # Unidade Astronômica em metros
-
+AU = 1.496e11  # em metros
 # Dados dos planetas: [Distância ao Sol (UA), Velocidade Orbital (m/s), Cor, Tamanho]
 dados_planetas = {
     "Mercúrio": [0.39, 47870, "gray", 3],
@@ -20,13 +21,13 @@ dados_planetas = {
 }
 
 # Configuração de tempo: 1 dia por frame (aumente para acelerar a simulação)
-dt = 24 * 3600 * 5  # 5 dias por frame para os planetas externos se moverem visivelmente
+dt = 24*3600*5  # 5 dias por frame para os planetas externos se moverem visivelmente
 
 # Inicialização de estados (Posição e Velocidade)
 estados = {}
 for nome, info in dados_planetas.items():
-    estados[nome] = {
-        "px": info[0] * AU,
+    estados[nome]={
+        "px": info[0]*AU,
         "py": 0.0,
         "vx": 0.0,
         "vy": info[1],
@@ -36,15 +37,15 @@ for nome, info in dados_planetas.items():
 
 def calcular_prox_pos(p):
     r = np.sqrt(p["px"]**2 + p["py"]**2)
-    a = -G * M_Sol / r**2
-    ax = a * (p["px"] / r)
-    ay = a * (p["py"] / r)
+    a = -G*M_Sol / r**2
+    ax = a*(p["px"] / r)
+    ay = a*(p["py"] / r)
 
     # Método de Euler-Cromer (estabilidade orbital melhorada)
-    p["vx"] += ax * dt
-    p["vy"] += ay * dt
-    p["px"] += p["vx"] * dt
-    p["py"] += p["vy"] * dt
+    p["vx"] += ax*dt
+    p["vy"] += ay*dt
+    p["px"] += p["vx"]*dt
+    p["py"] += p["vy"]*dt
     return p
 
 # ---- configuração do gráfico -----
@@ -79,7 +80,7 @@ def animate(i):
         # Atualiza rastros (limitando tamanho para não travar a memória)
         p["x_lista"].append(p["px"])
         p["y_lista"].append(p["py"])
-        if len(p["x_lista"]) > 500: # Mantém os últimos 500 pontos
+        if len(p["x_lista"]) > 500: # mantem os últimos 500 pontos
             p["x_lista"].pop(0)
             p["y_lista"].pop(0)
             
